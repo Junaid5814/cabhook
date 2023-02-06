@@ -1,0 +1,13 @@
+def get_location_suggestions(typed, API_KEY):
+    gmaps = googlemaps.Client(key=API_KEY)
+    result = gmaps.places_autocomplete(typed + ', Slough, UK')
+    data = []
+    for item in result:
+        address = item['description']
+        place_id = item['place_id']
+        details = gmaps.place(place_id)
+        for component in details['result']['address_components']:
+            if 'postal_code' in component['types']:
+                postcode = component['long_name']
+                data.append(address + ' ' + postcode)
+    return data

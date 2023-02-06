@@ -1,0 +1,96 @@
+from tkinter import *
+from tkinter import ttk
+from datetime import datetime
+def bookings(notebook,screen_width,screen_height):
+    booking_Frame = ttk.Frame(notebook, width=screen_width, height=screen_height)
+    notebook.add(booking_Frame, text="Bookings")
+    title_bar = Frame(booking_Frame, width=10, height=10, bg="black")
+    title_bar.place(x=0, y=0, height=40, width=screen_width)
+    title_label = Label(title_bar, text="Bookings", font="Arial 24", bg="black", fg="#ffffff")
+    title_label.pack()
+    bookings_menu_frame = Frame(booking_Frame, width=40, height=50, bg="red")
+    bookings_menu_frame.place(x=0, y=40, height=100, width=screen_width)
+    total_label = Label(bookings_menu_frame, text="Total Booking Found ")
+    total_label.place(x=10, y=5)
+    # _________________________ booking menu buttons___________________
+    job_status = StringVar()
+    job_status.set("All jobs")
+    completed_jobs = ttk.Radiobutton(bookings_menu_frame, text="Completed jobs", variable=job_status, value="completed")
+    completed_jobs.place(x=10, y=30)
+    no_pickup = ttk.Radiobutton(bookings_menu_frame, text="No pickup", variable=job_status, value="no_pickup")
+    no_pickup.place(x=120, y=30)
+    cancelled_jobs = ttk.Radiobutton(bookings_menu_frame, text="Cancelled jobs", variable=job_status, value="cancelled")
+    cancelled_jobs.place(x=220, y=30)
+    web_bookings = ttk.Radiobutton(bookings_menu_frame, text="Web bookings", variable=job_status, value="web_bookings")
+    web_bookings.place(x=320, y=30)
+    all_jobs = ttk.Radiobutton(bookings_menu_frame, text="All jobs", variable=job_status, value="all", state="normal")
+    all_jobs.place(x=420, y=30)
+    # _________________________ date picker  ____________________________
+    start_date_label = ttk.Label(bookings_menu_frame, text="Start date:")
+    start_date_label.place(x=10, y=60)
+    start_date_picker = ttk.Entry(bookings_menu_frame)
+    start_date_picker.insert(0, datetime.now().strftime("%Y-%m-%d"))
+    start_date_picker.place(x=68, y=60)
+
+    end_date_label = ttk.Label(bookings_menu_frame, text="End date:")
+    end_date_label.place(x=388, y=60)
+    end_date_picker = ttk.Entry(bookings_menu_frame)
+    end_date_picker.insert(0, datetime.now().strftime("%Y-%m-%d"))
+    end_date_picker.place(x=445, y=60)
+
+    # _________________________ time picker  ____________________________
+    start_time_label = ttk.Label(bookings_menu_frame, text="Start time:")
+    start_time_label.place(x=197, y=60)
+    start_time_picker = ttk.Entry(bookings_menu_frame)
+    start_time_picker.insert(0, "00:00")
+    start_time_picker.place(x=258, y=60)
+
+    end_time_label = ttk.Label(bookings_menu_frame, text="End time:")
+    end_time_label.place(x=575, y=60)
+    end_time_picker = ttk.Entry(bookings_menu_frame, )
+    end_time_picker.insert(0, "23:59")
+    end_time_picker.place(x=630, y=60)
+    # ________________________ time Picker ______________________________
+    search_button = Button(bookings_menu_frame, text="Search", width=20, height=4)
+    search_button.place(x=800, y=10)
+    export_button = Button(bookings_menu_frame, text="Export", width=20, height=4)
+    export_button.place(x=970, y=10)
+    # _______________________ bookings list__________________________________
+    bookings_list_frame = Frame(booking_Frame, width=screen_width, height=screen_height, bg="blue")
+
+    bookings_menu_frame_scroll = Scrollbar(bookings_list_frame, orient=VERTICAL)
+    # __________________________booking list in tree --------------------------------
+    booking_list = ttk.Treeview(bookings_list_frame, show="headings", yscrollcommand=bookings_menu_frame_scroll.set)
+    booking_list["columns"] = ("Ref", "Pickup Date and Time", "Passenger", "Tel. NO", "Pickup", "Drop_off", "Fare"
+                               , "Payment", "Job type", "Driver", "Vehicle", "Status")
+    booking_list.heading("Ref", text="Ref")
+    booking_list.heading("Pickup Date and Time", text="Date and Time")
+    booking_list.heading("Passenger", text="Passenger")
+    booking_list.heading("Tel. NO", text="Tel. NO")
+    booking_list.heading("Pickup", text="Pickup")
+    booking_list.heading("Drop_off", text="Drop Off")
+    booking_list.heading("Fare", text="Fare")
+    booking_list.heading("Payment", text="payment")
+    booking_list.heading("Job type", text="Job type")
+    booking_list.heading("Driver", text="Driver")
+    booking_list.heading("Vehicle", text="Vehicle")
+    booking_list.heading("Status", text="Status")
+    # setting the heading size for the table
+    booking_list.column("Ref", width=70, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Pickup Date and Time", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Passenger", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Tel. NO", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Pickup", width=200, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Drop_off", width=200, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Fare", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Payment", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Job type", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Driver", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Vehicle", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.column("Status", width=100, stretch=NO, minwidth=20, anchor='center')
+    booking_list.pack(side="left", expand=True, fill=BOTH)
+    # Scroll bar packing
+
+    bookings_menu_frame_scroll.pack(side="right", fill=Y)
+    bookings_menu_frame_scroll.config(command=booking_list.yview)
+    bookings_list_frame.place(x=0, y=150, height=550, width=screen_width)
